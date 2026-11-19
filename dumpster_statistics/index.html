@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dumpster Diving Simulator: Statistics</title>
+
+    <!-- The game's pixel font, Silkscreen, from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- THE EXTERNAL LIBRARY: Chart.js, loaded from a CDN. Pinned to version 4.5.1 so it can't change under us.
+         It must come BEFORE script.js, so that Chart exists when our code runs. -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main class="screen">
+        <div class="stage">
+
+            <!-- The Statistics screen from the Figma file -->
+            <section class="panel statistics-panel" aria-labelledby="stats-title">
+                <h1 id="stats-title" class="screen-heading">STATISTICS</h1>
+
+                <dl class="stat-list">
+                    <div class="stat-row"><dt>DIVES TAKEN</dt><dd>14</dd></div>
+                    <div class="stat-row"><dt>ITEMS FOUND</dt><dd id="items-found">17</dd></div>
+                    <div class="stat-row"><dt>COLLECTION</dt><dd>10 / 20</dd></div>
+                    <div class="stat-row"><dt>TOTAL SCORE</dt><dd>330</dd></div>
+                    <div class="stat-row"><dt>BEST FIND</dt><dd>SEALED ENVELOPE</dd></div>
+                </dl>
+
+                <h2 class="label-heading">FINDS BY RARITY</h2>
+
+                <!-- Chart.js draws the chart onto this <canvas>. The wrapper gives it a size, and the chart fills it. -->
+                <div class="chart-wrap">
+                    <canvas id="rarity-chart" role="img"
+                            aria-label="Horizontal bar chart: finds by rarity"
+                            aria-describedby="chart-summary"></canvas>
+                </div>
+                <!-- A canvas is a picture, so this sentence says what it shows. It updates on every click. -->
+                <p id="chart-summary" class="visually-hidden" aria-live="polite"></p>
+
+                <button id="reset-button" class="pixel-button" type="button">RESET DEMO</button>
+            </section>
+
+            <!-- Demo-only controls, so you can show the chart changing -->
+            <aside class="panel test-panel" aria-labelledby="test-title">
+                <h2 id="test-title" class="label-heading accent">TEST CONTROLS</h2>
+                <p class="note">DEMO ONLY. EACH BUTTON ADDS ONE FIND.</p>
+                <div class="test-buttons">
+                    <button class="pixel-button test-button" type="button" data-index="0"><span class="pip pip-common" aria-hidden="true"></span>+ COMMON FIND</button>
+                    <button class="pixel-button test-button" type="button" data-index="1"><span class="pip pip-uncommon" aria-hidden="true"></span>+ UNCOMMON FIND</button>
+                    <button class="pixel-button test-button" type="button" data-index="2"><span class="pip pip-rare" aria-hidden="true"></span>+ RARE FIND</button>
+                    <button class="pixel-button test-button" type="button" data-index="3"><span class="pip pip-legendary" aria-hidden="true"></span>+ LEGENDARY FIND</button>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+</body>
+</html>

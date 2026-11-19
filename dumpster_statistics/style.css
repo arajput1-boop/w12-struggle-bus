@@ -1,0 +1,271 @@
+/* =====================================================
+   DUMPSTER DIVING SIMULATOR: STATISTICS SCREEN
+   Every colour, font and size below comes from the
+   Figma "Asset Library" (design system + Statistics screen).
+   ===================================================== */
+
+:root {
+    /* Palette (Figma: Palette/...) */
+    --asphalt: #303800;
+    --dust: #AAAAAA;
+    --dumpster: #527E2D;
+    --bottle: #6E9C42;
+    --shadow: #4A4A4A;
+    --hazard: #DFB755;
+    --paper: #D6D6D6;
+    --ink: #000000;
+
+    /* Rarity colours (Figma: Rarity/...) */
+    --rarity-common: #8E8E8E;
+    --rarity-uncommon: #548AD2;
+    --rarity-rare: #DFB755;
+    --rarity-legendary: #C659B3;
+
+    /* Figma: Pixel/Hard Shadow */
+    --hard-shadow: 4px 4px 0 var(--ink);
+
+    /* Figma: Type/... (Silkscreen). Courier is only a fallback if the font can't load. */
+    --font: 'Silkscreen', 'Courier New', monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--asphalt);
+}
+
+body {
+    margin: 0;
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--paper);
+}
+
+/* The alley picture, then the dark "dim-overlay" from the Figma screen (black at 80%) on top of it.
+   Both are fixed behind everything, so the page can scroll over them. */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+}
+body::before {
+    z-index: -2;
+    background: url('assets/alley-background.svg') center bottom / cover no-repeat;
+}
+body::after {
+    z-index: -1;
+    background: var(--ink);
+    opacity: 0.8;
+}
+
+/* ---------- LAYOUT ---------- */
+.screen {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+/* One column on phones and tablets: the statistics panel, then the test controls */
+.stage {
+    width: min(712px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* On wide screens, the test controls sit beside the panel (the panel keeps its 712px from the design) */
+@media (min-width: 1100px) {
+    .stage {
+        width: 1056px;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    .statistics-panel { flex: 0 0 712px; }
+    .test-panel { flex: 1; }
+}
+
+/* ---------- PANEL (Figma: statistics-panel) ---------- */
+.panel {
+    background: var(--shadow);
+    border: 4px solid var(--dust);
+    box-shadow: var(--hard-shadow);
+    padding: 32px;
+}
+
+.statistics-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Figma: Type/Screen Heading 32, colour Hazard */
+.screen-heading {
+    margin: 0;
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 700;
+    color: var(--hazard);
+}
+
+/* ---------- STAT ROWS ---------- */
+.stat-list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 16px;
+}
+
+/* Figma: label = Type/Item Name 16 in Paper, value = Type/Label Bold 16 in Hazard */
+.stat-row dt {
+    font-weight: 400;
+    color: var(--paper);
+}
+.stat-row dd {
+    margin: 0;
+    font-weight: 700;
+    color: var(--hazard);
+    text-align: right;
+}
+
+/* Figma: Type/Label Bold 16 in Paper */
+.label-heading {
+    margin: 0;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    color: var(--paper);
+}
+.label-heading.accent {
+    color: var(--hazard);
+}
+
+/* ---------- CHART ---------- */
+/* 4 rows x 56px (a 48px row plus an 8px gap), as in the Figma chart frame */
+.chart-wrap {
+    position: relative;
+    height: 224px;
+    max-width: 614px; /* the width of the chart frame in Figma */
+}
+
+.chart-wrap canvas {
+    display: block;
+}
+
+.chart-error {
+    margin: 0;
+    padding: 16px;
+    border: 4px solid var(--dust);
+    color: var(--paper);
+}
+
+/* ---------- BUTTONS (Figma: button, States Default / Hover / Pressed) ---------- */
+.pixel-button {
+    width: 100%;
+    max-width: 360px;
+    min-height: 64px;
+    padding: 16px 12px;
+    font: 700 16px/24px var(--font);
+    color: var(--paper);
+    background: var(--dumpster);
+    border: 4px solid var(--paper);
+    box-shadow: var(--hard-shadow);
+    cursor: pointer;
+}
+
+.pixel-button:hover {
+    background: var(--bottle);
+}
+
+/* Pressed: the hard shadow disappears and the button moves into it */
+.pixel-button:active {
+    background: var(--dumpster);
+    box-shadow: none;
+    transform: translate(4px, 4px);
+}
+
+.pixel-button:focus-visible {
+    outline: 4px solid var(--hazard);
+    outline-offset: 4px;
+}
+
+.pixel-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.statistics-panel .pixel-button {
+    margin-top: 12px;
+}
+
+/* ---------- TEST CONTROLS ---------- */
+.test-panel {
+    padding: 24px;
+}
+
+.note {
+    margin: 4px 0 16px;
+    color: var(--paper);
+}
+
+.test-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.test-button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: none;
+    text-align: left;
+}
+
+/* A little square in the rarity colour, like the pip on the chart's badges */
+.pip {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--ink);
+}
+.pip-common { background: var(--rarity-common); }
+.pip-uncommon { background: var(--rarity-uncommon); }
+.pip-rare { background: var(--rarity-rare); }
+.pip-legendary { background: var(--rarity-legendary); }
+
+/* ---------- SCREEN READER ONLY ---------- */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- PHONES ---------- */
+@media (max-width: 480px) {
+    .screen { padding: 8px; }
+    .panel { padding: 16px; }
+    .screen-heading { font-size: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pixel-button:active { transform: none; }
+}
